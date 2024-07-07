@@ -10,7 +10,7 @@ import 'package:my_chat/features/homepage/sent_message.dart';
 import '../error_screen.dart';
 import '../loader.dart';
 
-class MessagesList extends ConsumerWidget {
+class MessagesList extends ConsumerStatefulWidget {
   const MessagesList({
     super.key,
     required this.chatroomId,
@@ -19,14 +19,44 @@ class MessagesList extends ConsumerWidget {
   final String chatroomId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final messagesList = ref.watch(getAllMessagesProvider(chatroomId));
+  ConsumerState<MessagesList> createState() => _MessagesListState();
+}
+
+class _MessagesListState extends ConsumerState<MessagesList> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        setState(() {
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        });
+
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final messagesList = ref.watch(getAllMessagesProvider(widget.chatroomId));
 
     return messagesList.when(
       data: (messages) {
-        debugPrint("data: $messages ");
+        _scrollToBottom();
         return ListView.builder(
-          reverse: true,
+          controller: _scrollController,
           itemCount: messages.length,
           itemBuilder: (context, index) {
             final message = messages.elementAt(index);
@@ -34,7 +64,7 @@ class MessagesList extends ConsumerWidget {
 
             if (!isMyMessage) {
               ref.read(chatProvider).seenMessage(
-                chatroomId: chatroomId,
+                chatroomId: widget.chatroomId,
                 messageId: message.messageId,
               );
             }

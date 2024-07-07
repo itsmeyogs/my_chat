@@ -19,6 +19,7 @@ class ChatList extends ConsumerWidget {
     return chatsList.when(
       data: (chats) {
         return ListView.builder(
+          reverse: true,
           itemCount: chats.length,
           itemBuilder: (context, index) {
             final chat = chats.elementAt(index);

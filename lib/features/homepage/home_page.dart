@@ -53,7 +53,7 @@ class _HomePageState extends ConsumerState<HomePage> {
        child: Column(
          children: [
             SizedBox(
-             height: 600,
+              height: 150,
              child: ChatList(),
            )
          ],

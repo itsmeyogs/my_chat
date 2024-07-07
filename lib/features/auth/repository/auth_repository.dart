@@ -35,7 +35,7 @@ class AuthRepository {
   //logout method
   Future<String?> logout() async {
     try {
-      await _auth.signOut();
+      _auth.signOut();
       return null;
     } catch (e) {
       return e.toString();
