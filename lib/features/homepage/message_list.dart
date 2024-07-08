@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_chat/features/homepage/providers/chat_provider.dart';
 import 'package:my_chat/features/homepage/providers/get_all_messages_provider.dart';
@@ -25,21 +24,11 @@ class MessagesList extends ConsumerStatefulWidget {
 class _MessagesListState extends ConsumerState<MessagesList> {
   late ScrollController _scrollController;
 
+
   @override
   void initState() {
+    _scrollController=ScrollController();
     super.initState();
-    _scrollController = ScrollController();
-  }
-
-  void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        setState(() {
-          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-        });
-
-      }
-    });
   }
 
   @override
@@ -48,13 +37,24 @@ class _MessagesListState extends ConsumerState<MessagesList> {
     super.dispose();
   }
 
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.extentTotal,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final messagesList = ref.watch(getAllMessagesProvider(widget.chatroomId));
-
     return messagesList.when(
       data: (messages) {
-        _scrollToBottom();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _scrollToBottom();
+        });
         return ListView.builder(
           controller: _scrollController,
           itemCount: messages.length,

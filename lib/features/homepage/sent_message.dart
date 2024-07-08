@@ -22,31 +22,14 @@ class SentMessage extends ConsumerWidget {
           const SizedBox(width: 15),
           Flexible(
             child: Container(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(6.0),
               decoration: const BoxDecoration(
                 color: Colors.blueGrey,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(15),
-                    topLeft: Radius.circular(20),
-                    bottomLeft: Radius.circular(20)),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
-              child: Wrap(
-                children: [
-                  MessageContents(
-                    message: message,
-                    isSentMessage: true,
-                  ),
-                  const SizedBox(width: 5),
-                  message.seen
-                      ? const Icon(
-                    Icons.done_all,
-                    color: Colors.white,
-                  )
-                      : const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                  ),
-                ],
+              child: MessageContents(
+                message: message,
+                isSentMessage: true,
               ),
             ),
           ),

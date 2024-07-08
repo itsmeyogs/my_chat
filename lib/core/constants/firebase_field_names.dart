@@ -12,10 +12,6 @@ class FirebaseFieldNames {
   static const String storyId = 'story_id';
   static const String views = 'views';
 
-  // video related
-  static const String videoUrl = 'video_url';
-  static const String videoId = 'video_id';
-
   //chat feature
   // Chat Feature
   static const members = 'members';

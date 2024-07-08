@@ -184,8 +184,7 @@ class ChatRepository {
   }
 
   Future<String> getPicReceivedMessage({required String userId}) async {
-    final userData = await _firestore.collection(FirebaseCollectionNames.users).where("uid", isEqualTo: userId)
-        .get();
+    final userData = await _firestore.collection(FirebaseCollectionNames.users).where("uid", isEqualTo: userId).get();
     final pic = UserModel.fromMap(userData.docs.first.data()).profilePicUrl;
     return pic;
   }

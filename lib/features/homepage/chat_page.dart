@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_chat/features/homepage/home_page.dart';
 import 'package:my_chat/features/homepage/providers/chat_provider.dart';
-import 'package:my_chat/features/homepage/user_widget.dart';
+import 'package:my_chat/features/homepage/widget/user_widget.dart';
 import 'package:my_chat/features/loader.dart';
 
 import '../../core/utils/utils.dart';
@@ -47,24 +47,32 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
           chatroomId = snapshot.data ?? 'No chatroom Id';
 
-          return Scaffold(
-            appBar: AppBar(
-              title: UserWidget(userId: widget.userId),
-            ),
-            body: Column(
-              children: [
-                Expanded(
-                    child: MessagesList(
-                        chatroomId: chatroomId
-                    )
-                ),
-                const Divider(),
-                _buildMessageInput()
-              ],
+          return PopScope(
+            canPop: false,
+            onPopInvoked: (pop) async {
+              // Navigate back to HomePage when back button is pressed
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                HomePage.routeName,
+                (route) => false,
+              );
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                title: UserWidget(userId: widget.userId),
+                centerTitle: true,
+              ),
+              body: Column(
+                children: [
+                  Expanded(child: MessagesList(chatroomId: chatroomId)),
+                  const Divider(),
+                  _buildMessageInput()
+                ],
+              ),
             ),
           );
         });
   }
+
   // Chat Text Field
   Widget _buildMessageInput() {
     return Container(
@@ -80,11 +88,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               final image = await pickImage();
               if (image == null) return;
               await ref.read(chatProvider).sendFileMessage(
-                file: image,
-                chatroomId: chatroomId,
-                receiverId: widget.userId,
-                messageType: 'image',
-              );
+                    file: image,
+                    chatroomId: chatroomId,
+                    receiverId: widget.userId,
+                    messageType: 'image',
+                  );
             },
           ),
           IconButton(
@@ -97,11 +105,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
               final video = await pickVideo();
               if (video == null) return;
               await ref.read(chatProvider).sendFileMessage(
-                file: video,
-                chatroomId: chatroomId,
-                receiverId: widget.userId,
-                messageType: 'video',
-              );
+                    file: video,
+                    chatroomId: chatroomId,
+                    receiverId: widget.userId,
+                    messageType: 'video',
+                  );
             },
           ),
           // Text Field
@@ -135,10 +143,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             onPressed: () async {
               // Add functionality to handle send button press
               await ref.read(chatProvider).sendMessage(
-                message: messageController.text,
-                chatroomId: chatroomId,
-                receiverId: widget.userId,
-              );
+                    message: messageController.text,
+                    chatroomId: chatroomId,
+                    receiverId: widget.userId,
+                  );
               messageController.clear();
             },
           ),
@@ -147,4 +155,3 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     );
   }
 }
-

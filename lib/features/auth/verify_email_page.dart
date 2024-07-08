@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_chat/features/auth/providers/auth_provider.dart';
-import 'package:my_chat/core/widget/auth_button.dart';
+import 'package:my_chat/features/auth/widgets/auth_button.dart';
 import 'package:my_chat/features/homepage/home_page.dart';
 import 'package:my_chat/core/utils/utils.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_chat/features/homepage/providers/chat_provider.dart';
-import 'package:my_chat/features/homepage/user_widget.dart';
+import 'package:my_chat/features/homepage/widget/user_widget.dart';
 import 'package:my_chat/features/loader.dart';
 
 import '../auth/models/user.dart';
@@ -51,7 +51,7 @@ class _AddChatState extends ConsumerState<AddChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('add Chat'),
+        title: const Text('Add Chat'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -88,7 +88,10 @@ class _AddChatState extends ConsumerState<AddChatPage> {
                               icon: const Icon(Icons.clear))
                           : IconButton(
                               onPressed: () {},
-                              icon: const Icon(Icons.search)))),
+                              icon: const Icon(Icons.search)
+                      )
+                  )
+              ),
               const SizedBox(height: 20),
               isLoading
                   ? const Padding(

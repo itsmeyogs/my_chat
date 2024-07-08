@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_chat/core/constants/extensions.dart';
 import 'package:my_chat/features/homepage/chat_page.dart';
 
-import '../auth/providers/get_user_info_by_id_provider.dart';
+import '../../auth/providers/get_user_info_by_id_provider.dart';
 
 
-class ChatTile extends ConsumerWidget {
+class ChatTile extends ConsumerStatefulWidget {
   const ChatTile({
     super.key,
     required this.userId,
@@ -21,25 +21,27 @@ class ChatTile extends ConsumerWidget {
   final String chatroomId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userInfo = ref.watch(getUserInfoByIdProvider(userId));
+  ConsumerState<ChatTile> createState() => _ChatTileState();
+}
+
+class _ChatTileState extends ConsumerState<ChatTile> {
+  @override
+  Widget build(BuildContext context) {
+    final userInfo = ref.watch(getUserInfoByIdProvider(widget.userId));
 
     return userInfo.when(
       data: (user) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8.0,
-            vertical: 8.0,
-          ),
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                ChatPage.routeName,
-                arguments: {
-                  'userId': userId,
-                },
-              );
-            },
+        return InkWell(
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              ChatPage.routeName,
+              arguments: {
+                'userId': widget.userId,
+              },
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 12,right: 12, top: 8, bottom: 8),
             child: Row(
               children: [
                 // Profile Pic
@@ -54,44 +56,36 @@ class ChatTile extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Name
-                      Text(
-                        user.name,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      // Last Message + Ts
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flexible(
-                            child: Text(
-                              lastMessage,
-                              style: const TextStyle(
-                                color: Colors.grey,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                          Text(
+                            user.name,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const Text(' → '),
                           Text(
-                            lastMessageTs.jm(),
+                            widget.lastMessageTs.jm(),
                             style: const TextStyle(
+                              fontSize: 12,
                               color: Colors.grey,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
+                      const SizedBox(height: 5),
+                      // Last Message + Ts
+                      Text(
+                        widget.lastMessage,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
-                  ),
-                ),
-                // Message status
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Icon(
-                    Icons.check_circle_outline,
-                    color: Colors.grey,
                   ),
                 ),
               ],
@@ -110,11 +104,7 @@ class ChatTile extends ConsumerWidget {
         );
       },
       loading: () {
-        return Container(
-          width: double.infinity,
-          height: 50,
-          color: Colors.grey,
-        );
+        return Container();
       },
     );
   }

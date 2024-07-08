@@ -38,35 +38,32 @@ class _NetworkVideoViewState extends State<NetworkVideoView> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: _videoController.value.aspectRatio,
-      child: Stack(
-        children: [
-          VideoPlayer(_videoController),
-          Positioned(
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: IconButton(
-              onPressed: () {
-                if (isPlaying) {
-                  _videoController.pause();
-                } else {
-                  _videoController.play();
-                }
-                isPlaying = !isPlaying;
-                setState(() {});
-              },
-              icon: Icon(
-                isPlaying ? Icons.pause_circle : Icons.play_circle,
-                size: 50,
-                color: Colors.white,
-              ),
+    return Stack(
+      children: [
+        VideoPlayer(_videoController),
+        Positioned(
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: IconButton(
+            onPressed: () {
+              if (isPlaying) {
+                _videoController.pause();
+              } else {
+                _videoController.play();
+              }
+              isPlaying = !isPlaying;
+              setState(() {});
+            },
+            icon: Icon(
+              isPlaying ? Icons.pause_circle : Icons.play_circle,
+              size: 50,
+              color: Colors.white,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

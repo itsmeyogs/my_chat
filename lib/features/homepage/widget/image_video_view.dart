@@ -15,7 +15,7 @@ class ImageVideoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (fileType == 'image') {
-      return Image.network(fileUrl);
+      return Image.network(fileUrl, fit: BoxFit.cover,);
     } else {
       return NetworkVideoView(
         videoUrl: fileUrl,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_chat/features/auth/providers/get_user_info_by_id_provider.dart';
 
-import '../error_screen.dart';
-import '../loader.dart';
+import '../../error_screen.dart';
+import '../../loader.dart';
 
 class UserWidget extends ConsumerWidget {
   const UserWidget({super.key, required this.userId});

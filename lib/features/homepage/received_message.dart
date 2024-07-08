@@ -5,34 +5,17 @@ import 'package:my_chat/features/homepage/providers/chat_provider.dart';
 import 'message_contents.dart';
 import 'models/message.dart';
 
-class ReceivedMessage extends ConsumerStatefulWidget {
-  final Message message;
-
+class ReceivedMessage extends ConsumerWidget {
   const ReceivedMessage({
     super.key,
     required this.message,
   });
 
-  @override
-  ConsumerState<ReceivedMessage> createState() => _ReceivedMessageState();
-}
-class _ReceivedMessageState extends ConsumerState<ReceivedMessage> {
-  String profilePic="";
-
-  Future<void> getProfilePic(String userId) async{
-    final pic = await ref.read(chatProvider).getPicReceivedMessage(userId: userId);
-    setState(()=>profilePic=pic );
-  }
-
-  @override
-  void initState() {
-    getProfilePic(widget.message.receiverId);
-    super.initState();
-  }
+  final Message message;
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -41,25 +24,31 @@ class _ReceivedMessageState extends ConsumerState<ReceivedMessage> {
             padding: const EdgeInsets.symmetric(
               horizontal: 8.0,
             ),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.grey,
-              backgroundImage: NetworkImage(profilePic),
-            ),
+            child: FutureBuilder(future: ref.read(chatProvider).getPicReceivedMessage(userId: message.receiverId),builder: (context, snapshot){
+              if(snapshot.hasData){
+                final receivedProfile = snapshot.data!;
+                return CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: NetworkImage(receivedProfile),
+                );
+              }
+              return const CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.grey,
+                backgroundImage: AssetImage('images/profile_default.png'),
+              );
+            },),
           ),
           const SizedBox(width: 15),
           Flexible(
             child: Container(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(6.0),
               decoration: const BoxDecoration(
                 color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
-              child: MessageContents(message: widget.message),
+              child: MessageContents(message: message),
             ),
           ),
         ],
