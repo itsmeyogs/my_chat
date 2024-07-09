@@ -7,12 +7,7 @@ class FirebaseFieldNames {
   static const String createdAt = 'created_at';
   static const String text = 'text';
 
-  // story specific
-  static const String imageUrl = 'image_url';
-  static const String storyId = 'story_id';
-  static const String views = 'views';
 
-  //chat feature
   // Chat Feature
   static const members = 'members';
   static const chatroomId = 'chatroom_id';

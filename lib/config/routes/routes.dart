@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:my_chat/features/auth/verify_email_page.dart';
-import 'package:my_chat/features/error_screen.dart';
-import 'package:my_chat/features/homepage/add_chat_page.dart';
-import 'package:my_chat/features/homepage/chat_page.dart';
-import 'package:my_chat/features/homepage/home_page.dart';
-import 'package:my_chat/features/profile/profile_page.dart';
+import 'package:my_chat/features/auth/screen/presentation/verify_email_page.dart';
+import 'package:my_chat/features/utils/error_screen.dart';
+import 'package:my_chat/features/homepage/screen/presentation/add_chat_page.dart';
+import 'package:my_chat/features/homepage/screen/presentation/chat_page.dart';
+import 'package:my_chat/features/homepage/screen/presentation/home_page.dart';
+import 'package:my_chat/features/profile/screen/presentation/profile_page.dart';
 
-import '../../features/auth/login_page.dart';
-import '../../features/auth/register_page.dart';
+import '../../features/auth/screen/presentation/login_page.dart';
+import '../../features/auth/screen/presentation/register_page.dart';
 
 class Routes{
   static Route onGenerateRoute(RouteSettings settings){
@@ -25,6 +25,7 @@ class Routes{
         return _cupertinoRoute(
             const VerifyEmailPage()
         );
+
 
       case HomePage.routeName:
         return _cupertinoRoute(
@@ -47,6 +48,7 @@ class Routes{
         return _cupertinoRoute(
             const ProfilePage()
         );
+
       default:
         return _cupertinoRoute(
           ErrorScreen(error: 'Wrong Route provided ${settings.name}')

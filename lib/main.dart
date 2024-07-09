@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_chat/features/auth/login_page.dart';
-import 'package:my_chat/features/auth/verify_email_page.dart';
-import 'package:my_chat/features/homepage/home_page.dart';
-import 'package:my_chat/features/loader.dart';
+import 'package:my_chat/features/auth/screen/presentation/login_page.dart';
+import 'package:my_chat/features/auth/screen/presentation/verify_email_page.dart';
+import 'package:my_chat/features/homepage/screen/presentation/home_page.dart';
+import 'package:my_chat/features/utils/loader.dart';
 
 import 'config/routes/routes.dart';
 import 'firebase_options.dart';
