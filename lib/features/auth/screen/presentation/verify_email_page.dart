@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_chat/core/providers/user_provider.dart';
 import 'package:my_chat/features/auth/screen/widget/round_button.dart';
-import 'package:my_chat/features/homepage/screen/presentation/home_page.dart';
 import 'package:my_chat/core/utils/utils.dart';
 import 'package:my_chat/features/utils/loader.dart';
 
@@ -32,9 +31,9 @@ class _VerifyEmailPageState extends ConsumerState<VerifyEmailPage> {
     setState(() => isLoading = true);
     await user.reload();
     if (user.emailVerified == true) {
-      Navigator.of(context).pushReplacementNamed((HomePage.routeName));
       setState(()=>isLoading = false);
     }
+    setState(()=>isLoading = false);
   }
 
 

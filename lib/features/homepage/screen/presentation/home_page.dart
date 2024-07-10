@@ -6,7 +6,6 @@ import 'package:my_chat/features/homepage/screen/presentation/add_chat_page.dart
 import 'package:my_chat/features/homepage/screen/widget/chat_list.dart';
 import 'package:my_chat/features/profile/screen/presentation/profile_page.dart';
 
-import '../../../auth/screen/presentation/login_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -47,7 +46,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                       PopupMenuItem(
                           onTap: () async {
                             await ref.read(userProvider).logout();
-                            Navigator.of(context).popAndPushNamed(LoginPage.routeName);
                           },
                           child: const Text('Log Out'))
                     ];
