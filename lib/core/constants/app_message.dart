@@ -16,11 +16,15 @@ class AppMessage{
 
   static const String emailVerificationHasBeenSent = "The verification link has been sent to your email.";
   static const String letsVerifyEmail = "Let's verify your email now to continue!";
-  static const String verifyEmailChanged = "Your email has been changed. Please verify email to continue";
   static const String resentEmailVerification = "Email verification sent to your email";
 
   static const String successUpdateProfileName = "Updated name successfully";
   static const String successUpdateProfilePic = "Updated profile photo successfully";
+
+  static const String errorCurrentPasswordIncorrect = "The current password is incorrect";
+  static const String errorNewPasswordSameCurrentPassword = "The new password cannot be the same as the current password";
+
+  static const String successUpdatePassword = "Change password successfully";
   static const String successDeleteAccount = "Account deleted successfully.";
 
   static const String noChatMessage = "Click the + to start a new conversation";

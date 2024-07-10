@@ -7,10 +7,10 @@ import 'package:my_chat/core/utils/utils.dart';
 import 'package:my_chat/features/auth/screen/widget/round_button.dart';
 import 'package:my_chat/features/auth/screen/widget/pick_image_widget.dart';
 import 'package:my_chat/core/providers/user_provider.dart';
+import 'package:my_chat/features/profile/screen/presentation/change_password_page.dart';
 import 'package:my_chat/features/utils/loader.dart';
 import 'package:my_chat/features/profile/screen/widget/bottom_sheet_edit_name.dart';
 
-import '../../../../core/constants/app_message.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -37,13 +37,18 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   Future<void> updateProfileName(String name) async {
     setState(() => isLoading = true);
     await ref.read(userProvider).updateProfileName(name: name);
-    navigatePop();
     setState(() => isLoading = false);
+    Navigator.pop(context);
+
   }
 
-  void navigatePop() {
+  Future<void> deleteAccount() async{
+    setState(() => isLoading = true);
+    await ref.read(userProvider).deleteAccount();
+    setState(() => isLoading = false);
     Navigator.pop(context);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +107,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                       ),
                                       child: BottomSheetEditName(
                                           nameController: _nameController,
-                                          onCancelPressed: navigatePop,
+                                          onCancelPressed: (){
+                                            Navigator.pop(context);
+                                          },
                                           onSavePressed: () async {
                                             final name = _nameController.text;
                                             if (name != user.name) {
                                               updateProfileName(name);
                                             } else {
-                                              navigatePop();
+                                              Navigator.pop(context);
                                             }
                                           }));
                                 });
@@ -192,20 +199,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               padding: const EdgeInsets.only(left: 24, right:24),
                               child: RoundButton(
                                   onPressed: () {
-                                    showToastMessage(text: AppMessage.comingSoon);
-                                  },
-                                  label: "Change Email",
-                                  labelSize: 16),
-                            )
-                        ),
-                        const SizedBox(height: 16,),
-                        SizedBox(
-                            width: screen.width,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 24, right:24),
-                              child: RoundButton(
-                                  onPressed: () {
-                                    showToastMessage(text: AppMessage.comingSoon);
+                                    Navigator.of(context).pushNamed(
+                                      ChangePasswordPage.routeName,
+                                      arguments: {
+                                        'currentPassword': user.password,
+                                      },
+                                    );
                                   },
                                   label: "Change Password",
                                   labelSize: 16),
@@ -217,11 +216,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               padding: const EdgeInsets.only(left: 24, right:24),
                               child: RoundButton(
                                   onPressed: () async{
-                                    setState(()=>isLoading=true);
-                                    await ref.read(userProvider).deleteAccount();
-                                    setState(()=>isLoading=false);
-                                    navigatePop();
-                                    setState(() {});
                                   },
                                   label: "Delete Account",
                                   labelSize: 16),

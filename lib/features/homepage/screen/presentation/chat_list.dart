@@ -7,7 +7,7 @@ import 'package:my_chat/core/providers/get_all_chats_provider.dart';
 import 'package:my_chat/features/utils/loader.dart';
 
 import '../../../../core/constants/app_message.dart';
-import 'chat_tile.dart';
+import '../widget/chat_tile.dart';
 
 class ChatList extends ConsumerStatefulWidget {
   const ChatList({super.key});

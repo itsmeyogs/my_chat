@@ -6,7 +6,7 @@ import 'package:my_chat/features/auth/screen/presentation/register_page.dart';
 import 'package:my_chat/features/auth/screen/widget/round_button.dart';
 import 'package:my_chat/features/auth/screen/widget/edit_text.dart';
 
-final _formKey = GlobalKey<FormState>();
+final _loginFormKey = GlobalKey<FormState>();
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -38,8 +38,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> login() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_loginFormKey.currentState!.validate()) {
+      _loginFormKey.currentState!.save();
       setState(() => isLoading = true);
       await ref
           .read(userProvider)
@@ -79,7 +79,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 height: 16,
               ),
               Form(
-                  key: _formKey,
+                  key: _loginFormKey,
                   child: Column(
                     children: [
                       EditText(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:my_chat/features/auth/screen/presentation/verify_email_page.dart';
+import 'package:my_chat/features/profile/screen/presentation/change_password_page.dart';
 import 'package:my_chat/features/utils/error_screen.dart';
 import 'package:my_chat/features/homepage/screen/presentation/add_chat_page.dart';
 import 'package:my_chat/features/homepage/screen/presentation/chat_page.dart';
@@ -47,6 +48,13 @@ class Routes{
       case ProfilePage.routeName:
         return _cupertinoRoute(
             const ProfilePage()
+        );
+
+      case ChangePasswordPage.routeName:
+        final arguments = settings.arguments as Map<String, dynamic>;
+        final currentPassword = arguments['currentPassword'] as String;
+        return _cupertinoRoute(
+            ChangePasswordPage(currentPassword: currentPassword)
         );
 
       default:

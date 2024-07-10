@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_chat/core/constants/storage_folder_names.dart';
-import 'package:my_chat/features/homepage/screen/presentation/home_page.dart';
 import 'package:my_chat/core/providers/chat_provider.dart';
 import 'package:my_chat/features/homepage/screen/widget/user_widget.dart';
 import 'package:my_chat/features/utils/loader.dart';
 
-import '../../../../core/utils/utils.dart';
 import '../widget/message_list.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
@@ -52,10 +48,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             canPop: false,
             onPopInvoked: (pop) async {
               // Navigate back to HomePage when back button is pressed
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                HomePage.routeName,
-                (route) => false,
-              );
+              Navigator.of(context).popUntil((route)=>route.isFirst);
             },
             child: Scaffold(
               appBar: AppBar(
@@ -80,39 +73,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          IconButton(
-            icon: const Icon(
-              Icons.image,
-              color: Colors.grey,
-            ),
-            onPressed: () async {
-              final image = await pickImage();
-              if (image == null) return;
-              await ref.read(chatProvider).sendFileMessage(
-                    file: image,
-                    chatroomId: chatroomId,
-                    receiverId: widget.userId,
-                    messageType: StorageFolderNames.images,
-                  );
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              FontAwesomeIcons.video,
-              color: Colors.grey,
-              size: 20,
-            ),
-            onPressed: () async {
-              final video = await pickVideo();
-              if (video == null) return;
-              await ref.read(chatProvider).sendFileMessage(
-                    file: video,
-                    chatroomId: chatroomId,
-                    receiverId: widget.userId,
-                    messageType: StorageFolderNames.videos,
-                  );
-            },
-          ),
           // Text Field
           Expanded(
             child: Container(

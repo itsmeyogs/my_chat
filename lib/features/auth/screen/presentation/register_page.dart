@@ -6,7 +6,7 @@ import 'package:my_chat/features/auth/screen/widget/round_button.dart';
 import 'package:my_chat/features/auth/screen/widget/edit_text.dart';
 
 
-final _formKey = GlobalKey<FormState>();
+final _registerFormKey = GlobalKey<FormState>();
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -42,12 +42,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   }
 
   Future<void> register() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_registerFormKey.currentState!.validate()) {
+      _registerFormKey.currentState!.save();
       setState(() => isLoading = true);
       await ref.read(userProvider).register(
               name: _nameController.text,
-              email: _emailController.text,
+              email: _emailController.text.toLowerCase(),
               password: _passController.text)
           .then((credential) {
         if (!credential!.user!.emailVerified) {
@@ -91,7 +91,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 height: 16,
               ),
               Form(
-                  key: _formKey,
+                  key: _registerFormKey,
                   child: Column(
                     children: [
                       EditText(

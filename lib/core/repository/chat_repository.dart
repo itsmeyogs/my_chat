@@ -1,8 +1,6 @@
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:my_chat/core/constants/firebase_collection_names.dart';
@@ -17,7 +15,6 @@ import '../models/user_model.dart';
 class ChatRepository {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-  final _storage = FirebaseStorage.instance;
 
   //func search user
   Future<UserModel?> searchUser({required String email}) async {
@@ -94,7 +91,6 @@ class ChatRepository {
         receiverId: receiverId,
         timestamp: now,
         seen: false,
-        messageType: 'text',
       );
 
       DocumentReference myChatroomRef = FirebaseFirestore.instance
@@ -108,52 +104,6 @@ class ChatRepository {
 
       await myChatroomRef.update({
         FirebaseFieldNames.lastMessage: message,
-        FirebaseFieldNames.lastMessageTs: now.millisecondsSinceEpoch,
-      });
-
-      return null;
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
-// Send message
-  Future<String?> sendFileMessage({
-    required File file,
-    required String chatroomId,
-    required String receiverId,
-    required String messageType,
-  }) async {
-    try {
-      final messageId = const Uuid().v1();
-      final now = DateTime.now();
-
-      // Save to storage
-      Reference ref = _storage.ref(messageType).child(messageId);
-      TaskSnapshot snapshot = await ref.putFile(file);
-      final downloadUrl = await snapshot.ref.getDownloadURL();
-
-      Message newMessage = Message(
-        message: downloadUrl,
-        messageId: messageId,
-        senderId: _auth.currentUser!.uid,
-        receiverId: receiverId,
-        timestamp: now,
-        seen: false,
-        messageType: messageType,
-      );
-
-      DocumentReference myChatroomRef = FirebaseFirestore.instance
-          .collection(FirebaseCollectionNames.chatrooms)
-          .doc(chatroomId);
-
-      await myChatroomRef
-          .collection(FirebaseCollectionNames.messages)
-          .doc(messageId)
-          .set(newMessage.toMap());
-
-      await myChatroomRef.update({
-        FirebaseFieldNames.lastMessage: 'send a $messageType',
         FirebaseFieldNames.lastMessageTs: now.millisecondsSinceEpoch,
       });
 

@@ -38,7 +38,7 @@ class _AddChatState extends ConsumerState<AddChatPage> {
   Future<void> searchUser(String email) async {
     if (email.isNotEmpty) {
       setState(() => isLoading = true);
-      final search = await ref.read(chatProvider).searchUser(email: email);
+      final search = await ref.read(chatProvider).searchUser(email: email.toLowerCase());
       setState(() {
         isLoading = false;
         isSearched = true;

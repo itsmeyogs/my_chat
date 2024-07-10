@@ -10,7 +10,6 @@ class Message {
   final String receiverId;
   final DateTime timestamp;
   final bool seen;
-  final String messageType;
 
   const Message({
     required this.message,
@@ -19,7 +18,6 @@ class Message {
     required this.receiverId,
     required this.timestamp,
     required this.seen,
-    required this.messageType,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,7 +28,6 @@ class Message {
       FirebaseFieldNames.receiverId: receiverId,
       FirebaseFieldNames.timestamp: timestamp.millisecondsSinceEpoch,
       FirebaseFieldNames.seen: seen,
-      FirebaseFieldNames.messageType: messageType,
     };
   }
 
@@ -44,7 +41,6 @@ class Message {
         map[FirebaseFieldNames.timestamp] as int,
       ),
       seen: map[FirebaseFieldNames.seen] as bool,
-      messageType: map[FirebaseFieldNames.messageType] as String,
     );
   }
 }

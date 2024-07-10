@@ -160,19 +160,55 @@ class UserRepository {
     }
   }
 
+  Future<void> changePassword({required String newPassword}) async{
+    final currentUser = _auth.currentUser;
+    try{
+      if(currentUser!=null){
+        final userData = await _firestore
+            .collection(FirebaseCollectionNames.users)
+            .where("uid", isEqualTo: currentUser.uid)
+            .get();
+        final user = UserModel.fromMap(userData.docs.first.data());
+
+        final authCredential = EmailAuthProvider.credential(email: user.email, password: user.password);
+        await currentUser.reauthenticateWithCredential(authCredential);
+
+        await currentUser.updatePassword(newPassword);
+
+        await _firestore.collection(FirebaseCollectionNames.users).doc(_auth.currentUser!.uid).update(
+            {FirebaseFieldNames.password:newPassword});
+
+        showToastMessage(text: AppMessage.successUpdatePassword);
+      }
+    }catch (e){
+      showToastMessage(text: e.toString());
+    }
+  }
+
   //change email
   Future<void> deleteAccount() async{
-    final user = _auth.currentUser;
+    final currentUser = _auth.currentUser;
     try{
-      if(user!=null){
+      if(currentUser!=null){
+        final userData = await _firestore
+            .collection(FirebaseCollectionNames.users)
+            .where("uid", isEqualTo: currentUser.uid)
+            .get();
+        final user = UserModel.fromMap(userData.docs.first.data());
+
+        final authCredential = EmailAuthProvider.credential(email: user.email, password: user.password);
+
+        await currentUser.reauthenticateWithCredential(authCredential);
         await _storage.ref(StorageFolderNames.profilePics).child(user.uid).delete();
         await _firestore.collection(FirebaseCollectionNames.users).doc(user.uid).delete();
-        await user.delete();
+        await currentUser.delete();
         await _auth.signOut();
       }
-
     }catch(e){
       showToastMessage(text: e.toString());
     }
   }
+
+
+
 }

@@ -19,7 +19,6 @@ class FirebaseFieldNames {
   static const seen = 'seen';
   static const timestamp = 'timestamp';
   static const messageId = 'message_id';
-  static const messageType = 'message_type';
 
 
   FirebaseFieldNames._();

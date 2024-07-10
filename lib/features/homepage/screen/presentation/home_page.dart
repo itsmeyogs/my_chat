@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_chat/core/providers/user_provider.dart';
 import 'package:my_chat/features/homepage/screen/presentation/add_chat_page.dart';
-import 'package:my_chat/features/homepage/screen/widget/chat_list.dart';
+import 'package:my_chat/features/homepage/screen/presentation/chat_list.dart';
 import 'package:my_chat/features/profile/screen/presentation/profile_page.dart';
 
 
