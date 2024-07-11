@@ -98,7 +98,7 @@ class _VerifyEmailPageState extends ConsumerState<VerifyEmailPage> {
                 child: RoundButton(
                   onPressed: () async {
                     setState(() => isLoading = true);
-                    await ref.read(userProvider).deleteAccount();
+                    await ref.read(userProvider).changeAccountFromVerify();
                     setState(() => isLoading = false);
                   },
                   label: "Change Email",

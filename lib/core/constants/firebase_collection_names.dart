@@ -1,3 +1,5 @@
+//class yang berisi nama collection yang akan dibuat/digunakan nantinya
+
 class FirebaseCollectionNames{
   static const String users = 'users';
   static const String chatrooms = 'chatrooms';

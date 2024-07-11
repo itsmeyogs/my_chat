@@ -44,24 +44,17 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
           chatroomId = snapshot.data ?? 'No chatroom Id';
 
-          return PopScope(
-            canPop: false,
-            onPopInvoked: (pop) async {
-              // Navigate back to HomePage when back button is pressed
-              Navigator.of(context).popUntil((route)=>route.isFirst);
-            },
-            child: Scaffold(
-              appBar: AppBar(
-                title: UserWidget(userId: widget.userId),
-                centerTitle: true,
-              ),
-              body: Column(
-                children: [
-                  Expanded(child: MessagesList(chatroomId: chatroomId)),
-                  const Divider(),
-                  _buildMessageInput()
-                ],
-              ),
+          return Scaffold(
+            appBar: AppBar(
+              title: UserWidget(userId: widget.userId),
+              centerTitle: true,
+            ),
+            body: Column(
+              children: [
+                Expanded(child: MessagesList(chatroomId: chatroomId)),
+                const Divider(),
+                _buildMessageInput()
+              ],
             ),
           );
         });

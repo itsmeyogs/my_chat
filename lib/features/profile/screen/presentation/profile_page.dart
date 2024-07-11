@@ -44,7 +44,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   Future<void> deleteAccount() async{
     setState(() => isLoading = true);
-    await ref.read(userProvider).deleteAccount();
+    await ref.read(userProvider).changeAccountFromVerify();
     setState(() => isLoading = false);
     Navigator.pop(context);
   }
@@ -191,7 +191,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 100,
+                          height: 200,
                         ),
                         SizedBox(
                             width: screen.width,
@@ -209,17 +209,21 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   label: "Change Password",
                                   labelSize: 16),
                             )),
-                        const SizedBox(height: 16,),
+                        SizedBox(height: 10,),
                         SizedBox(
                             width: screen.width,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 24, right:24),
                               child: RoundButton(
                                   onPressed: () async{
+                                    setState(()=>isLoading=true);
+                                    await ref.read(userProvider).logout();
+                                    setState(()=>isLoading=true);
+                                    Navigator.pop(context);
                                   },
-                                  label: "Delete Account",
+                                  label: "Log Out",
                                   labelSize: 16),
-                            ))
+                            )),
                       ],
                     ),
                   );

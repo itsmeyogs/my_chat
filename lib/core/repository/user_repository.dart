@@ -186,7 +186,7 @@ class UserRepository {
   }
 
   //change email
-  Future<void> deleteAccount() async{
+  Future<void> changeAccountFromVerify() async{
     final currentUser = _auth.currentUser;
     try{
       if(currentUser!=null){
@@ -208,7 +208,4 @@ class UserRepository {
       showToastMessage(text: e.toString());
     }
   }
-
-
-
 }
