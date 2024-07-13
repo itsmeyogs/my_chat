@@ -43,6 +43,11 @@ class _HomePageState extends ConsumerState<HomePage> {
               }, icon: const Icon(Icons.person))
             ],
           ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 8,
+            ),
+          ),
           //menampilkan chatlist
           const ChatList()
         ],
