@@ -20,6 +20,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueGrey,
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.of(context).pushNamed(AddChatPage.routeName);
         },
@@ -28,13 +30,14 @@ class _HomePageState extends ConsumerState<HomePage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            toolbarHeight: 70,
+            backgroundColor: Colors.blueGrey[600],
+            foregroundColor: Colors.white,
             floating: true,
-            title: const Text("My Chat"),
+            title: const Text("MyChat", style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20)),
             actions: [
               IconButton(onPressed: (){
                 Navigator.of(context).pushNamed(ProfilePage.routeName);
-              }, icon: Icon(Icons.person))
+              }, icon: const Icon(Icons.person))
             ],
           ),
           const ChatList()

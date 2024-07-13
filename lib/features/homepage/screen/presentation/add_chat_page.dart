@@ -51,7 +51,9 @@ class _AddChatState extends ConsumerState<AddChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Chat'),
+        backgroundColor: Colors.blueGrey[600],
+        foregroundColor: Colors.white,
+        title: const Text('Add Chat', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -111,17 +113,20 @@ class _AddChatState extends ConsumerState<AddChatPage> {
                               ),
                             ),
                             searchResult != null
-                                ? InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed(
-                                        ChatPage.routeName,
-                                        arguments: {
-                                          'userId': searchResult!.uid,
-                                        },
-                                      );
-                                    },
-                                    child:
-                                        UserWidget(userId: searchResult!.uid))
+                                ? Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                          ChatPage.routeName,
+                                          arguments: {
+                                            'userId': searchResult!.uid,
+                                          },
+                                        );
+                                      },
+                                      child:
+                                          UserWidget(userId: searchResult!.uid)),
+                                )
                                 : const Padding(
                                     padding: EdgeInsets.only(top: 20),
                                     child:

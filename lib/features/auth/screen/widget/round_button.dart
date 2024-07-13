@@ -20,14 +20,12 @@ class RoundButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)),
       child: TextButton(
           onPressed: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Text(
-            label,
-              style: TextStyle(
-                  fontSize: labelSize,
-                  color: Colors.white),
-            ),
+          child: Text(
+          label,
+            style: TextStyle(
+                fontSize: labelSize,
+                fontWeight: FontWeight.w600,
+                color: Colors.white),
           )),
     );
   }

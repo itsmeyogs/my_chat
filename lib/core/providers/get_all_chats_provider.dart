@@ -8,6 +8,7 @@ import 'package:my_chat/core/constants/firebase_field_names.dart';
 import '../constants/firebase_collection_names.dart';
 import '../models/chatroom.dart';
 
+//provider untuk mengambil data semua chat yang ada di firestore
 final getAllChatsProvider =
 StreamProvider.autoDispose<Iterable<Chatroom>>((ref) {
   final myUid = FirebaseAuth.instance.currentUser!.uid;

@@ -10,46 +10,52 @@ import 'package:my_chat/features/profile/screen/presentation/profile_page.dart';
 import '../../features/auth/screen/presentation/login_page.dart';
 import '../../features/auth/screen/presentation/register_page.dart';
 
+//class ini digunakan untuk mengatur route dari apps
 class Routes{
   static Route onGenerateRoute(RouteSettings settings){
     switch(settings.name){
+
+      //route dari Register Page
       case RegisterPage.routeName:
         return _cupertinoRoute(
           const RegisterPage()
         );
+
+      //route dari Login Page
       case LoginPage.routeName:
         return _cupertinoRoute(
             const LoginPage()
         );
 
+      //route dari Verify Email Page
       case VerifyEmailPage.routeName:
         return _cupertinoRoute(
             const VerifyEmailPage()
         );
 
-
+      //route dari Home Page
       case HomePage.routeName:
         return _cupertinoRoute(
           const HomePage()
         );
-
+      //route dari Add Chat Page
       case AddChatPage.routeName:
         return _cupertinoRoute(
             const AddChatPage()
         );
-
+      //route dari Chat Page
       case ChatPage.routeName:
         final arguments = settings.arguments as Map<String, dynamic>;
         final userId = arguments['userId'] as String;
         return _cupertinoRoute(
             ChatPage(userId: userId)
         );
-
+      //route dari Profile Page
       case ProfilePage.routeName:
         return _cupertinoRoute(
             const ProfilePage()
         );
-
+      //route dari Change Password Page
       case ChangePasswordPage.routeName:
         final arguments = settings.arguments as Map<String, dynamic>;
         final currentPassword = arguments['currentPassword'] as String;

@@ -7,6 +7,7 @@ import 'package:my_chat/core/models/message.dart';
 
 import '../constants/firebase_collection_names.dart';
 
+//provider untuk mengambil data semua message yang ada di firestore
 final getAllMessagesProvider =
 StreamProvider.autoDispose.family<Iterable<Message>, String>((ref, String chatroomId) {
 

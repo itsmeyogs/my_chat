@@ -24,7 +24,7 @@ class SentMessage extends ConsumerWidget {
             child: Container(
               padding: const EdgeInsets.all(6.0),
               decoration: const BoxDecoration(
-                color: Colors.blueGrey,
+                color: Color(0XFF78909C),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
               child: MessageContents(

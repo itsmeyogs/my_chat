@@ -24,28 +24,27 @@ class ReceivedMessage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: 8.0,
             ),
-            child: FutureBuilder(future: ref.read(chatProvider).getPicReceivedMessage(userId: message.receiverId),builder: (context, snapshot){
+            child: FutureBuilder(future: ref.read(chatProvider).getPicProfileSenderMessage(userId: message.senderId),builder: (context, snapshot){
               if(snapshot.hasData){
                 final receivedProfile = snapshot.data!;
                 return CircleAvatar(
                   radius: 20,
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Colors.white70,
                   backgroundImage: NetworkImage(receivedProfile),
                 );
               }
               return const CircleAvatar(
                 radius: 20,
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.white70,
                 backgroundImage: AssetImage('images/profile_default.png'),
               );
             },),
           ),
-          const SizedBox(width: 15),
           Flexible(
             child: Container(
               padding: const EdgeInsets.all(6.0),
               decoration: const BoxDecoration(
-                color: Colors.grey,
+                color: Colors.white70,
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
               child: MessageContents(message: message),

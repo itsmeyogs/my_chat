@@ -19,11 +19,12 @@ class UserWidget extends ConsumerWidget {
         children: [
           CircleAvatar(
             backgroundImage: NetworkImage(user.profilePicUrl),
-            radius: 24,
+            radius: 20,
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 user.name,
@@ -36,7 +37,6 @@ class UserWidget extends ConsumerWidget {
                 user.email,
                 style: const TextStyle(
                   fontSize: 14.0,
-                  color: Colors.grey,
                 ),
               ),
             ],

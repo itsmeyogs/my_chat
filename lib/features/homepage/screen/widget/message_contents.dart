@@ -25,7 +25,7 @@ class MessageContents extends StatelessWidget {
                 Text(
                   message.message,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w400,
                     color: Colors.white,
                   ),
@@ -39,7 +39,7 @@ class MessageContents extends StatelessWidget {
                     children: [
                       Text(
                         message.timestamp.jm(),
-                        style: const TextStyle(fontSize: 10),
+                        style: const TextStyle(fontSize: 10, color: Color(0XFF005c4b)),
                       ),
                       const SizedBox(
                         width: 2,
@@ -47,11 +47,13 @@ class MessageContents extends StatelessWidget {
                       message.seen
                           ? const Icon(
                               Icons.done_all,
-                              size: 20,
+                              color: Color(0XFF005c4b),
+                              size: 16,
                             )
                           : const Icon(
                               Icons.done,
-                              size: 20,
+                              color: Color(0XFF005c4b),
+                              size: 16,
                             )
                     ],
                   ),
@@ -65,7 +67,7 @@ class MessageContents extends StatelessWidget {
               Text(
                 message.message,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
                   fontWeight: FontWeight.w400,
                   color: Colors.black,
                 ),
@@ -77,7 +79,7 @@ class MessageContents extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
                   message.timestamp.jm(),
-                  style: const TextStyle(fontSize: 10),
+                  style: const TextStyle(fontSize: 10, color: Color(0XFF005c4b)),
                 ),
               )
             ],

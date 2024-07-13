@@ -46,7 +46,7 @@ class _ChatTileState extends ConsumerState<ChatTile> {
               children: [
                 // Profile Pic
                 CircleAvatar(
-                  radius: 30,
+                  radius: 25,
                   backgroundImage: NetworkImage(user.profilePicUrl),
                 ),
                 const SizedBox(width: 10),
@@ -63,7 +63,7 @@ class _ChatTileState extends ConsumerState<ChatTile> {
                             user.name,
                             style: const TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
@@ -76,11 +76,11 @@ class _ChatTileState extends ConsumerState<ChatTile> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 5),
                       // Last Message + Ts
                       Text(
                         widget.lastMessage,
                         style: const TextStyle(
+                          fontSize: 14,
                           color: Colors.grey,
                         ),
                         overflow: TextOverflow.ellipsis,

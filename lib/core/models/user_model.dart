@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:my_chat/core/constants/firebase_field_names.dart';
 
+//class ini berisi model untuk user
 @immutable
 class UserModel {
   final String name;

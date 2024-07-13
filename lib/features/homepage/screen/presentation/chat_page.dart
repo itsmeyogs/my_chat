@@ -45,14 +45,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           chatroomId = snapshot.data ?? 'No chatroom Id';
 
           return Scaffold(
+            backgroundColor: Colors.blueGrey[100],
             appBar: AppBar(
+              backgroundColor: Colors.blueGrey[600],
+              foregroundColor: Colors.white,
               title: UserWidget(userId: widget.userId),
               centerTitle: true,
             ),
             body: Column(
               children: [
                 Expanded(child: MessagesList(chatroomId: chatroomId)),
-                const Divider(),
                 _buildMessageInput()
               ],
             ),
@@ -63,6 +65,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   // Chat Text Field
   Widget _buildMessageInput() {
     return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(width: 0.2, color: Colors.blueGrey)
+        )
+      ),
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
@@ -71,7 +78,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.grey,
+                color: Colors.white70,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextField(
@@ -92,15 +99,17 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           IconButton(
             icon: const Icon(
               Icons.send,
-              color: Colors.grey,
+              color: Colors.blueGrey,
             ),
             onPressed: () async {
-              // Add functionality to handle send button press
-              await ref.read(chatProvider).sendMessage(
-                    message: messageController.text,
-                    chatroomId: chatroomId,
-                    receiverId: widget.userId,
-                  );
+              // mengirimkan pesan ketika ditekan icon send
+              if(messageController.text.isNotEmpty){
+                await ref.read(chatProvider).sendMessage(
+                  message: messageController.text,
+                  chatroomId: chatroomId,
+                  receiverId: widget.userId,
+                );
+              }
               messageController.clear();
             },
           ),
