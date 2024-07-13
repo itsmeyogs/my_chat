@@ -5,7 +5,7 @@ import 'package:my_chat/features/homepage/screen/presentation/chat_page.dart';
 
 import '../../../../core/providers/get_user_info_by_id_provider.dart';
 
-
+//widget untuk menampilkan informasi chat list
 class ChatTile extends ConsumerStatefulWidget {
   const ChatTile({
     super.key,
@@ -27,10 +27,13 @@ class ChatTile extends ConsumerStatefulWidget {
 class _ChatTileState extends ConsumerState<ChatTile> {
   @override
   Widget build(BuildContext context) {
+    //mendapatkan data user by id dari provider
     final userInfo = ref.watch(getUserInfoByIdProvider(widget.userId));
 
     return userInfo.when(
+      //ketika data user ada
       data: (user) {
+        //ditambahkan inkwell agar ketika diklik maka akan berpindah ke halaman chat page
         return InkWell(
           onTap: () {
             Navigator.of(context).pushNamed(
@@ -44,13 +47,12 @@ class _ChatTileState extends ConsumerState<ChatTile> {
             padding: const EdgeInsets.only(left: 12,right: 12, top: 8, bottom: 8),
             child: Row(
               children: [
-                // Profile Pic
+                // menampilkan profile picture
                 CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(user.profilePicUrl),
                 ),
                 const SizedBox(width: 10),
-                // Column (Name + Last Message + Last Message Timetstamp)
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,6 +61,7 @@ class _ChatTileState extends ConsumerState<ChatTile> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          //menampilkan nama
                           Text(
                             user.name,
                             style: const TextStyle(
@@ -67,6 +70,7 @@ class _ChatTileState extends ConsumerState<ChatTile> {
                             ),
                           ),
                           Text(
+                            //menampilkan waktu pesan terakhir
                             widget.lastMessageTs.jm(),
                             style: const TextStyle(
                               fontSize: 12,
@@ -78,6 +82,7 @@ class _ChatTileState extends ConsumerState<ChatTile> {
                       ),
                       // Last Message + Ts
                       Text(
+                        //menampilkan pesan terakhir
                         widget.lastMessage,
                         style: const TextStyle(
                           fontSize: 14,
@@ -93,6 +98,7 @@ class _ChatTileState extends ConsumerState<ChatTile> {
           ),
         );
       },
+      //meanmpilkan error
       error: (error, stackTrace) {
         return Container(
           width: double.infinity,
@@ -103,6 +109,7 @@ class _ChatTileState extends ConsumerState<ChatTile> {
           ),
         );
       },
+      //menampilkan loading
       loading: () {
         return Container();
       },

@@ -6,8 +6,10 @@ import 'package:my_chat/features/auth/screen/widget/round_button.dart';
 import 'package:my_chat/features/auth/screen/widget/edit_text.dart';
 
 
+//membuat key untuk form register
 final _registerFormKey = GlobalKey<FormState>();
 
+//widget untuk halaman register
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
@@ -18,9 +20,13 @@ class RegisterPage extends ConsumerStatefulWidget {
 }
 
 class _RegisterPageState extends ConsumerState<RegisterPage> {
+  //variabel isloading untuk mengatur loading
   bool isLoading = false;
+
+  //variabel hidepassword untuk mengatur showpassword
   bool hidePassword = true;
 
+  //controller untuk nama, email dan password
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passController;
@@ -41,22 +47,31 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     super.dispose();
   }
 
+  //function register
   Future<void> register() async {
+    //validasi form key saat ini
     if (_registerFormKey.currentState!.validate()) {
+      //menyimpan isi form pada state saat ini
       _registerFormKey.currentState!.save();
+      //mengubah loading menjadi true
       setState(() => isLoading = true);
+      ///menjalankan function register yang ada di userRepository dengan mengirimkan
+      ///parameter berupa name, email dan password
       await ref.read(userProvider).register(
               name: _nameController.text,
               email: _emailController.text.toLowerCase(),
               password: _passController.text)
           .then((credential) {
+            //mengecek jika email belum diverifikasi
         if (!credential!.user!.emailVerified) {
+          //maka akann menjalankan pop(kembali ke halaman sebelumnya)
           Navigator.pop(context);
         }
       }).catchError((_) {
+        //mengubah loading menjadi false ketika proses sudah selesai
         setState(() => isLoading = false);
       });
-
+      //mengubah loading menjadi false ketika proses sudah selesai
       setState(() => isLoading = false);
     }
   }
@@ -156,6 +171,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               const SizedBox(
                 height: 20,
               ),
+              //menampilkan teks already have account, jika diklik maka akan kembali kehalaman sebelumnya yaitu login
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//widget untuk menampilkan errorScreen
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key, required this.error});
   final String error;

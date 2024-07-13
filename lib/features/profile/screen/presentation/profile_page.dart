@@ -5,13 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_chat/core/utils/utils.dart';
 import 'package:my_chat/features/auth/screen/widget/round_button.dart';
-import 'package:my_chat/features/auth/screen/widget/pick_image_widget.dart';
+import 'package:my_chat/features/profile/screen/widget/pick_image_widget.dart';
 import 'package:my_chat/core/providers/user_provider.dart';
 import 'package:my_chat/features/profile/screen/presentation/change_password_page.dart';
 import 'package:my_chat/features/utils/loader.dart';
 import 'package:my_chat/features/profile/screen/widget/bottom_sheet_edit_name.dart';
 
 
+//widget ini digunakan untuk menampilkan profile user saat ini
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
 
@@ -22,43 +23,55 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
+  //variabel image untuk menampung gambar jika terjadi perubahan foto profil
   File? image;
+  //variabel isloading untuk mengatur loading
   bool isLoading = false;
+
+  //controller untuk name
   final TextEditingController _nameController = TextEditingController();
 
+
+  //function untuk update foto profile
   Future<void> updateProfilePicture(File? image) async {
+    //mengecek apakah image tidak sama dengan null
     if (image != null) {
+      //mengatur loading = true
       setState(() => isLoading = true);
+      //menjalankan fungsi update foto profile di userRepository
       await ref.read(userProvider).updateProfilePicture(image: image);
+      ////mengatur loading = false
       setState(() => isLoading = false);
     }
   }
 
+  //function untuk update nama profil
   Future<void> updateProfileName(String name) async {
+    //mengatur loading = true
     setState(() => isLoading = true);
+    //menjalankan fungsi update nama di userRepository
     await ref.read(userProvider).updateProfileName(name: name);
+    //mengatur loading = false
     setState(() => isLoading = false);
+    //menekan tombol kembali untuk menutup bottomsheet
     Navigator.pop(context);
 
   }
-
-  Future<void> deleteAccount() async{
-    setState(() => isLoading = true);
-    await ref.read(userProvider).changeAccountFromVerify();
-    setState(() => isLoading = false);
-    Navigator.pop(context);
-  }
-
 
   @override
   Widget build(BuildContext context) {
+    //mendapatkan size dari screen
     final screen = MediaQuery.of(context).size;
     return FutureBuilder(
+        //mendapatkan data dari function getUserInfo di userRepository
         future: ref.read(userProvider).getUserInfo(),
         builder: (context, snapshot) {
+          //jika data tidak kosong
           if (snapshot.hasData) {
             final user = snapshot.data!;
+            //mengisi controller name dengan nama saat ini
             _nameController.text = user.name;
+            //menampilkan scaffold
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.blueGrey[600],
@@ -66,7 +79,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 title: const Text("Profile", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),),
                 centerTitle: true,
               ),
+              //jika isloading true menampilkan loading
               body: isLoading? const Loader():
+                  //jika false maka menampilkan SingleChildScrollview untuk menampiklan data
               SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,10 +89,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     const SizedBox(
                       height: 30,
                     ),
+                    //meanmpilkan foto profil
                     Center(
                       child: PickImageWidget(
                           onPressed: () async {
+                            //jika diklik maka akan membuka galeri
                             image = await pickImage();
+                            //kemudian dijalankan fungsi untuk update foto profile
                             await updateProfilePicture(image);
                           },
                           image: image,
@@ -86,6 +104,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     const SizedBox(
                       height: 32,
                     ),
+                    //menampilkan nama user, yang mana jika diklik maka akan menampilkan bottom sheet edit nama
                     InkWell(
                       onTap: () {
                         showModalBottomSheet(
@@ -102,15 +121,21 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                         .viewInsets
                                         .bottom,
                                   ),
+                                  //menampilkan bottom sheet edit nama
                                   child: BottomSheetEditName(
                                       nameController: _nameController,
                                       onCancelPressed: (){
+                                        //jika diklik cancel maka akan kembali untuk menutup bottomsheet
                                         Navigator.pop(context);
                                       },
                                       onSavePressed: () async {
+                                        //jika diklik save
                                         final name = _nameController.text;
+                                        //dicek apakah nama tidak sama dengan nama saat ini
                                         if (name != user.name) {
+                                          //jika true maka dijalankan fungsi update nama
                                           updateProfileName(name);
+                                          //jika false maka akan kembali untuk menutup bottomsheet
                                         } else {
                                           Navigator.pop(context);
                                         }
@@ -130,6 +155,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               ),
                             ),
                             const SizedBox(width: 16.0),
+                            //menampilkan nama user
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -157,6 +183,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ),
                       ),
                     ),
+                    //meanmpilkan email user
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Row(
@@ -190,6 +217,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     const SizedBox(
                       height: 200,
                     ),
+                    //button untuk mengganti password dan akan berpindah ke halaman ganti password
                     SizedBox(
                         width: screen.width,
                         child: Padding(
@@ -207,6 +235,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               labelSize: 16),
                         )),
                     const SizedBox(height: 10,),
+                    //button untuk logout
                     SizedBox(
                         width: screen.width,
                         child: Padding(

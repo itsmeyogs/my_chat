@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'message_contents.dart';
 import '../../../../core/models/message.dart';
 
+//widget ini digunakan untuk mengatur tampilan dari pesan yang dikirim
 class SentMessage extends ConsumerWidget {
   final Message message;
 
@@ -27,6 +28,7 @@ class SentMessage extends ConsumerWidget {
                 color: Color(0XFF78909C),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
+              //menampikan isi pesan yang dikirim dengan mengirim juga parameter isSentMessage=true agar pesan dikenali sebagai pesan yang dikirim
               child: MessageContents(
                 message: message,
                 isSentMessage: true,

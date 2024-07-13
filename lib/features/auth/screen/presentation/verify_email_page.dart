@@ -8,6 +8,7 @@ import 'package:my_chat/features/utils/loader.dart';
 
 import '../../../../core/constants/app_message.dart';
 
+//widget untuk halaman verifikasi email
 class VerifyEmailPage extends ConsumerStatefulWidget {
   const VerifyEmailPage({super.key});
 
@@ -18,27 +19,35 @@ class VerifyEmailPage extends ConsumerStatefulWidget {
 }
 
 class _VerifyEmailPageState extends ConsumerState<VerifyEmailPage> {
+  //variabel isloading untuk mengatur loading
   bool isLoading = false;
 
+  //function send email verification
   Future<void> sendEmailVerification() async {
+    //mengubah loading menjadi true
     setState(() => isLoading = true);
+    //menjalankan function verifyEmail yang ada di userRepository
     await ref.read(userProvider).verifyEmail();
+    //mengubah loading menjadi false ketika proses sudah selesai
     setState(() => isLoading = false);
   }
 
+  //function untuk mengecek apakah email sudah diverifikasi
   Future<void> refreshVerify() async {
+    //membuat instance current usser dari firebase auth
     final user = FirebaseAuth.instance.currentUser!;
+    //mengubah loading menjadi true
     setState(() => isLoading = true);
+    //merefresh sesi akun yang tersimpan saat ini
     await user.reload();
-    if (user.emailVerified == true) {
-      setState(()=>isLoading = false);
-    }
+    //mengubah loading menjadi false ketika proses sudah selesai
     setState(()=>isLoading = false);
   }
 
 
   @override
   void initState() {
+    //otomatis menjalankan function sendemailverification ketika halaman baru dibuka
     sendEmailVerification();
     super.initState();
   }

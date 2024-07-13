@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+
+//widget untuk pick image dan menampilkan image di profile page
 class PickImageWidget extends StatelessWidget{
   const PickImageWidget({super.key,required this.onPressed, required this.image, required this.currentImage});
 
@@ -13,15 +15,18 @@ class PickImageWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        //mengecek jika image tidak sama dengan kosong, maka ditampilkan image(foto yang dipilih dari galeri)
         image != null
             ? CircleAvatar(
           radius: 85,
           backgroundImage: FileImage(image!),
         )
+        //jika false maka akan ditampilkan gambar saat ini(dari firestore)
             :  CircleAvatar(
           radius: 85,
           backgroundImage: NetworkImage(currentImage),
         ),
+        //meanmpilkan button icon camera untuk mengganti profile
         Positioned(
           bottom: 0,
           right: 0,

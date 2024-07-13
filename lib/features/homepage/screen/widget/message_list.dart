@@ -9,6 +9,7 @@ import 'package:my_chat/features/homepage/screen/widget/sent_message.dart';
 import '../../../utils/error_screen.dart';
 import '../../../utils/loader.dart';
 
+//widget ini digunakan untuk menampilkan semua list pesan
 class MessagesList extends ConsumerStatefulWidget {
   const MessagesList({
     super.key,
@@ -22,6 +23,7 @@ class MessagesList extends ConsumerStatefulWidget {
 }
 
 class _MessagesListState extends ConsumerState<MessagesList> {
+  //scroll controller untuk listbuilder
   late ScrollController _scrollController;
 
 
@@ -37,6 +39,7 @@ class _MessagesListState extends ConsumerState<MessagesList> {
     super.dispose();
   }
 
+  //function agar otomatis scroll ke message paling bawah
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -52,16 +55,22 @@ class _MessagesListState extends ConsumerState<MessagesList> {
     final messagesList = ref.watch(getAllMessagesProvider(widget.chatroomId));
     return messagesList.when(
       data: (messages) {
+        //menjalankan function scrollbottom ketika halaman pertama kali dibuka, sehingga langsung scroll ke paling bawah
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _scrollToBottom();
         });
+        //menampilkan list
         return ListView.builder(
           controller: _scrollController,
           itemCount: messages.length,
           itemBuilder: (context, index) {
+            // Ambil data message pada index tertentu
             final message = messages.elementAt(index);
+
+            //mengecek apakah id dari message sender sama dengan id user saat ini
             final isMyMessage = message.senderId == FirebaseAuth.instance.currentUser!.uid;
 
+            //jika tidak maka dijalankan function untuk mengupdate collection agar seen = true
             if (!isMyMessage) {
               ref.read(chatProvider).seenMessage(
                 chatroomId: widget.chatroomId,
@@ -69,17 +78,22 @@ class _MessagesListState extends ConsumerState<MessagesList> {
               );
             }
 
+            //jika id dari message sender sama dengan id user saat ini
             if (isMyMessage) {
+              //maka ditampilkan halaman sent message dengan parameter data message
               return SentMessage(message: message);
             } else {
+              //maka ditampilkan halaman received message dengan parameter data message
               return ReceivedMessage(message: message);
             }
           },
         );
       },
+      //menampilkan error
       error: (error, stackTrace) {
         return ErrorScreen(error: error.toString());
       },
+      //menampilkan loading
       loading: () {
         return const Loader();
       },
