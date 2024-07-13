@@ -20,15 +20,26 @@ class ChatRepository {
 
   //function untuk mencari user berdasarkan email(untuk add chat baru)
   Future<UserModel?> searchUser({required String email}) async {
-    if (email != _auth.currentUser!.email) {
-      final userData = await _firestore
-          .collection(FirebaseCollectionNames.users)
-          .where("email", isEqualTo: email)
-          .get();
-      final user = UserModel.fromMap(userData.docs.first.data());
-      return user;
+    try{
+      //mengecek jika tidak sama dengan email user saat ini
+      if (email != _auth.currentUser!.email) {
+        final userData = await _firestore
+            .collection(FirebaseCollectionNames.users)
+            .where("email", isEqualTo: email)
+            .get();
+        final data = userData.docs.first.data();
+        //mengecek apakah hasil tidak kosong
+        if(data.isNotEmpty){
+          final user = UserModel.fromMap(userData.docs.first.data());
+          return user;
+        }
+      }
+      //jika tidak maka direturn null
+      return null;
+    }catch(e){
+      return null;
     }
-    return null;
+
   }
 
   //function untuk membuat chatroom baru
